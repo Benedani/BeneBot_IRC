@@ -19,11 +19,11 @@ namespace IRCbot
         }
 
         #region vars
-        public string SERVER = "irc.geekshed.net";
+        public string SERVER;
         private int PORT = 6667;
         private string USER = "USER CSharpBot 8 * :I'm a C# irc bot"; 
         private string NICK = "MEOW";
-        public string CHANNEL = "#benedani";
+        public string CHANNEL;
         public StreamWriter writer;
         NetworkStream stream;
         TcpClient irc;
@@ -97,7 +97,7 @@ namespace IRCbot
             }
             catch
             {
-                console_tbox.AppendText("\r\nFailed to join");
+                console_tbox.AppendText("Failed to join\r\n");
             }
         }
 
@@ -136,9 +136,30 @@ namespace IRCbot
             {
                 if (sendmsg_box.Text != "")
                 {
-                    writer.WriteLine("PRIVMSG " + CHANNEL + " " + sendmsg_box.Text);
-                    writer.Flush();
-                    console_tbox.AppendText("MEOW:" + sendmsg_box.Text + "\r\n");
+                    if (sendmsg_box.Text.ToCharArray()[0] == '/')
+                    {
+                        List<string> args = sendmsg_box.Text.Split(' ').ToList();
+                        string cmd = args[0];
+                        args.RemoveAt(0);
+
+                        if (cmd == "/me")
+                        {
+                            string argument = "";
+                            foreach (string word in args)
+                            {
+                                argument += " " + word;
+                            }
+                            writer.WriteLine("PRIVMSG " + CHANNEL + " \x0001ACTION" + argument + "\x0001");
+                            writer.Flush();
+                            console_tbox.AppendText("* MEOW" + argument + "\r\n");
+                        }
+                    }
+                    else
+                    {
+                        writer.WriteLine("PRIVMSG " + CHANNEL + " " + sendmsg_box.Text);
+                        writer.Flush();
+                        console_tbox.AppendText("MEOW:" + sendmsg_box.Text + "\r\n");
+                    }
                 }
             }
             else
