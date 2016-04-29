@@ -110,6 +110,13 @@ namespace IRCbot
                                 if (splitInput[0] != "PING")
                                 {
                                     AddText(finalline);
+                                    if (finalline.Contains(':'))
+                                    {
+                                        RespondToMsg rtm = new RespondToMsg(finalline, form);
+                                        Thread oThread = new Thread(new ThreadStart(rtm.Respond));
+                                        oThread.Start();
+                                        oThread.Join();
+                                    }
                                 }
                             }
                             else
@@ -136,6 +143,7 @@ namespace IRCbot
                                 case "353":
                                     List<string> words = splitInput.ToList();
                                     words.RemoveRange(0, 5);
+                                    ushort x = 0;
                                     foreach (string origname in words)
                                     {
                                         string name = origname;
@@ -149,10 +157,17 @@ namespace IRCbot
                                                 name += chr;
                                             }
                                         }
-                                        form.AddUserToList(name, false);
+                                        try
+                                        {
+                                            string test = words[x + 2]; // If there is still another name ahead
+                                            form.AddUserToList(name, false);
+                                        }
+                                        catch
+                                        {
+                                            form.AddUserToList(name, true);
+                                        }
+                                        x++;
                                     }
-                                    
-                                    form.UpdateUserList();
                                     break;
                                 default:
                                     break;
@@ -163,7 +178,7 @@ namespace IRCbot
                         if (inputLine.Contains("End of /NAMES"))
                         {
                             respondtouser = true;
-                            form.writer.WriteLine("PRIVMSG NickServ identify itsthegods");
+                            form.writer.WriteLine("PRIVMSG NickServ identify " + form.password);
                             form.writer.Flush();
                         }
                     }

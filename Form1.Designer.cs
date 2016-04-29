@@ -36,6 +36,8 @@
             this.sendmsg_box = new System.Windows.Forms.TextBox();
             this.userlist_tbox = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.rawmsg_cbox = new System.Windows.Forms.CheckBox();
+            this.logintbox = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // textBox1
@@ -56,7 +58,7 @@
             // 
             // connbutton
             // 
-            this.connbutton.Location = new System.Drawing.Point(13, 66);
+            this.connbutton.Location = new System.Drawing.Point(15, 89);
             this.connbutton.Name = "connbutton";
             this.connbutton.Size = new System.Drawing.Size(100, 23);
             this.connbutton.TabIndex = 2;
@@ -67,12 +69,12 @@
             // console_tbox
             // 
             this.console_tbox.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.console_tbox.Location = new System.Drawing.Point(163, 13);
+            this.console_tbox.Location = new System.Drawing.Point(163, 39);
             this.console_tbox.Multiline = true;
             this.console_tbox.Name = "console_tbox";
             this.console_tbox.ReadOnly = true;
             this.console_tbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.console_tbox.Size = new System.Drawing.Size(329, 292);
+            this.console_tbox.Size = new System.Drawing.Size(329, 266);
             this.console_tbox.TabIndex = 3;
             // 
             // sendbutton
@@ -96,28 +98,48 @@
             // userlist_tbox
             // 
             this.userlist_tbox.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.userlist_tbox.Location = new System.Drawing.Point(13, 118);
+            this.userlist_tbox.Location = new System.Drawing.Point(13, 134);
             this.userlist_tbox.Multiline = true;
             this.userlist_tbox.Name = "userlist_tbox";
             this.userlist_tbox.ReadOnly = true;
             this.userlist_tbox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.userlist_tbox.Size = new System.Drawing.Size(122, 215);
+            this.userlist_tbox.Size = new System.Drawing.Size(122, 199);
             this.userlist_tbox.TabIndex = 6;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(12, 102);
+            this.label1.Location = new System.Drawing.Point(12, 118);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(34, 13);
             this.label1.TabIndex = 7;
             this.label1.Text = "Users";
+            // 
+            // rawmsg_cbox
+            // 
+            this.rawmsg_cbox.AutoSize = true;
+            this.rawmsg_cbox.Location = new System.Drawing.Point(163, 13);
+            this.rawmsg_cbox.Name = "rawmsg_cbox";
+            this.rawmsg_cbox.Size = new System.Drawing.Size(99, 17);
+            this.rawmsg_cbox.TabIndex = 8;
+            this.rawmsg_cbox.Text = "Raw Messages";
+            this.rawmsg_cbox.UseVisualStyleBackColor = true;
+            // 
+            // logintbox
+            // 
+            this.logintbox.Location = new System.Drawing.Point(12, 65);
+            this.logintbox.Name = "logintbox";
+            this.logintbox.Size = new System.Drawing.Size(100, 20);
+            this.logintbox.TabIndex = 9;
+            this.logintbox.Text = "Password";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(504, 352);
+            this.Controls.Add(this.logintbox);
+            this.Controls.Add(this.rawmsg_cbox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.userlist_tbox);
             this.Controls.Add(this.sendmsg_box);
@@ -143,5 +165,7 @@
         private System.Windows.Forms.TextBox sendmsg_box;
         public System.Windows.Forms.TextBox userlist_tbox;
         private System.Windows.Forms.Label label1;
+        public System.Windows.Forms.CheckBox rawmsg_cbox;
+        private System.Windows.Forms.TextBox logintbox;
     }
 }

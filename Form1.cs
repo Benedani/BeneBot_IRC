@@ -24,12 +24,15 @@ namespace IRCbot
         private string USER = "USER CSharpBot 8 * :I'm a C# irc bot"; 
         private string NICK = "MEOW";
         public string CHANNEL;
+        public string password;
         public StreamWriter writer;
         NetworkStream stream;
         TcpClient irc;
         public StreamReader reader;
         Thread oThread;
         MsgHandler handlemsg;
+        Thread thread2;
+        DoRandomMsg randommsg;
         List<string> users = new List<string> { };
         #endregion
 
@@ -67,6 +70,8 @@ namespace IRCbot
                 irc.Close();
                 oThread.Abort();
                 oThread.Join();
+                thread2.Abort();
+                thread2.Join();
             }
         }
 
@@ -80,6 +85,7 @@ namespace IRCbot
             console_tbox.AppendText("Connecting...\r\n");
             SERVER = textBox1.Text;
             CHANNEL = textBox2.Text;
+            password = logintbox.Text;
             try
             {
                 irc = new TcpClient(SERVER, PORT);
@@ -93,6 +99,9 @@ namespace IRCbot
                 handlemsg = new MsgHandler(this);
                 oThread = new Thread(new ThreadStart(handlemsg.Read));
                 oThread.Start();
+                randommsg = new DoRandomMsg(this);
+                thread2 = new Thread(new ThreadStart(randommsg.ProcessRandomMsg));
+                thread2.Start();
                 connbutton.Text = "Disconnect";
             }
             catch
@@ -108,6 +117,9 @@ namespace IRCbot
             oThread.Abort();
             oThread.Join();
             oThread = null;
+            thread2.Abort();
+            thread2.Join();
+            thread2 = null;
             users.Clear();
             UpdateUserList();
             connbutton.Text = "Connect";
