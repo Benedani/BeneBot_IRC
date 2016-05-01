@@ -33,12 +33,48 @@ namespace IRCbot
         MsgHandler handlemsg;
         Thread thread2;
         DoRandomMsg randommsg;
-        List<string> users = new List<string> { };
+        public List<string> users = new List<string> { };
+        public Dictionary<string, sbyte> likes = new Dictionary<string, sbyte> { };
         #endregion
 
         public void AddUserToList(string name, bool update)
         {
             users.Add(name);
+            if (!likes.ContainsKey(name))
+            {
+                if (File.Exists(@"C:\\BeneBot\benebot-likes.txt"))
+                {
+                    sbyte val = 0;
+                    StreamReader read = new StreamReader(@"C:\\BeneBot\benebot-likes.txt");
+
+                    while (true)
+                    {
+                        if (!read.EndOfStream)
+                        {
+                            string line = read.ReadLine();
+                            if (line.Contains(name))
+                            {
+                                string[] args = line.Split(' ');
+                                val = sbyte.Parse(args[2]);
+                                break;
+                            }
+                        }
+                        else
+                        break;
+                    }
+                    read.Close();
+                    likes.Add(name, val); // Get the saved value
+                }
+                else
+                {
+                    if (!Directory.Exists(@"C:\\BeneBot"))
+                    {
+                        Directory.CreateDirectory(@"C:\\BeneBot");
+                    }
+                    File.Create(@"C:\\BeneBot\benebot-likes.txt");
+                    likes.Add(name, 0); // neutral
+                }
+            }
             if (update) UpdateUserList();
         }
 
